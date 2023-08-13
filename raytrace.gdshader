@@ -2,7 +2,7 @@ shader_type canvas_item;
 
 uniform float Zoom : hint_range(0.1, 10) = 2.0;
 uniform float Brightness : hint_range(0.0, 3.0) = 1.0;
-uniform vec3 startingRayPos = vec3(0.0, -0.2, -6.5);
+uniform vec3 startingRayPos = vec3(0.0, 0.0, -6.5);
 uniform vec3 startingRayRot = vec3(0.0);
 
 
@@ -10,22 +10,37 @@ const vec4[5] spheres = {
 	vec4(0.5, 0.5, 2.0, 0.5),
 	vec4(0.2, 0.8, 1.0, 0.2),
 	vec4(1.0, 0.3, -0.5, 0.3),
-	vec4(-1.0, 0.7, -0.2, 0.25),
+	vec4(-0.6, 0.7, -0.2, 0.25),
 	vec4(0.0, 0.1, 0.2, 0.2)
 };
 
 const vec4[5] sphereColors = {
 	vec4(0.3, 0.3, 0.3, 1.0),
-	vec4(0.9, 0.1, 0.8, 1.0),
+	vec4(0.9, 0.2, 0.6, 1.0),
 	vec4(0.2, 0.1, 0.8, 1.0),
-	vec4(0.0, 0.8, 0.5, 1.0),
-	vec4(0.0, 0.8, 0.5, 1.0)
+	vec4(0.6, 0.0, 0.4, 1.0),
+	vec4(0.0, 1.0, 0.7, 1.0)
 };
+
+
+
+
+float findDistToSphere(vec3 pos, int sphereNum) {
+	float dist;
+	vec4 sphere = spheres[sphereNum];
+	dist = sqrt(
+		pow(pos.x-sphere.x, 2) +
+		pow(pos.y-sphere.y, 2) +
+		pow(pos.z-sphere.z, 2)
+	) - sphere.w;
+	
+	return dist;
+}
 
 
 void fragment() {
 	vec4 pixelColor = vec4(0.0, 0.0, 0.0, 1.0);
-	vec4 sphereColor = pixelColor;
+	vec4 rayColor = pixelColor;
 	int hitSphere = -1;
 	
 	vec3 rayDir = vec3(0.0, 0.0, 1.0);
@@ -39,8 +54,14 @@ void fragment() {
 		
 		rayDir = newRayDir;
 	}
+	{
+		vec3 newRayDir = rayDir;
+		newRayDir.y = rayDir.y * cos(startingRayRot.x) - rayDir.z * sin(startingRayRot.x);
+		newRayDir.z = rayDir.y * sin(startingRayRot.x) + rayDir.z * cos(startingRayRot.x);
+		
+		rayDir = newRayDir;
+	}
 	
-	//rayDir = normalize(rayDir);
 	
 	vec3 rayPos = startingRayPos;
 	rayPos.x += UV.x;
@@ -53,22 +74,40 @@ void fragment() {
 		
 		rayPos = newRayPos;
 	}
+	{
+		vec3 newRayPos = rayPos;
+		newRayPos.y = rayPos.y * cos(startingRayRot.x) - rayPos.z * sin(startingRayRot.x);
+		newRayPos.z = rayPos.y * sin(startingRayRot.x) + rayPos.z * cos(startingRayRot.x);
+		
+		rayPos = newRayPos;
+	}
 	
 	
-	int maxRays = 100;
+	
+	int maxRays = 200;
 	for(int i = 0; i < maxRays; i++) {
 		float dist = 4000.0;
 		
 		for(int j = 0; j < spheres.length(); j++) {
-			float distToSphere = sqrt(
-				pow(rayPos.x-spheres[j].x, 2) +
-				pow(rayPos.y-spheres[j].y, 2) +
-				pow(rayPos.z-spheres[j].z, 2)
-			) - spheres[j].w;
+			float distToSphere = findDistToSphere(rayPos, j);
 			
-			if (distToSphere < 0.0001) {
-				hitSphere = j;
-				sphereColor = sphereColors[j];
+			float rayTestDist = findDistToSphere(rayPos + rayDir, j);
+			
+			if (distToSphere < 0.001) {
+				vec3 normal = rayPos - spheres[j].xyz;
+				
+				
+				rayColor = sphereColors[j] * sphereColors[j].a;
+				
+				rayColor.a = 1.0;
+				
+				float angle = PI;
+				
+				normal = normalize(normal);
+				
+				rayDir = -rayDir;
+				rayDir = rayDir*cos(angle) + cross(normal, rayDir) * sin(angle) + normal * dot(normal, rayDir)*(1.0-cos(angle));
+				rayPos += rayDir * 2.0;
 			}
 			
 			dist = min(dist, distToSphere);
@@ -79,12 +118,11 @@ void fragment() {
 	
 	vec3 normal = (rayPos - spheres[hitSphere].xyz) - spheres[hitSphere].w;
 	
-	pixelColor = sphereColor;
-	pixelColor *= length(normal);
+	pixelColor = rayColor;
+	//pixelColor *= length(normal);
 	
 	pixelColor.a = 1.0;
 	//pixelColor.a = clamp(pixelColor.a, 0.0, 1.0);
-	
 	
 	pixelColor *= Brightness;
 	
