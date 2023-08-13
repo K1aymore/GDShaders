@@ -1,17 +1,17 @@
 shader_type canvas_item;
 
-uniform float Zoom : hint_range(0.1, 10) = 2.0;
+uniform float Zoom : hint_range(0.1, 10) = 1.0;
 uniform float Brightness : hint_range(0.0, 3.0) = 1.0;
-uniform vec3 startingRayPos = vec3(0.0, 0.0, -6.5);
+uniform vec3 startingRayPos = vec3(-0.69, 0.0, -3);
 uniform vec3 startingRayRot = vec3(0.0);
 
 
 const vec4[5] spheres = {
-	vec4(0.5, 0.5, 2.0, 0.5),
-	vec4(0.2, 0.8, 1.0, 0.2),
-	vec4(1.0, 0.3, -0.5, 0.3),
-	vec4(-0.6, 0.7, -0.2, 0.25),
-	vec4(0.0, 0.1, 0.2, 0.2)
+	vec4(0.5, 0.5, 1.0, 0.5),
+	vec4(-1.0, 1.2, 0.5, 0.3),
+	vec4(1.0, 0.3, -1.0, 0.3),
+	vec4(-0.6, 0.7, -0.7, 0.25),
+	vec4(0.0, -0.5, -0.3, 0.4)
 };
 
 const vec4[5] sphereColors = {
@@ -93,11 +93,10 @@ void fragment() {
 			
 			float rayTestDist = findDistToSphere(rayPos + rayDir, j);
 			
-			if (distToSphere < 0.001) {
+			if (distToSphere < 0.0001) {
 				vec3 normal = rayPos - spheres[j].xyz;
 				
-				
-				rayColor = sphereColors[j] * sphereColors[j].a;
+				rayColor = mix(rayColor, sphereColors[j] * sphereColors[j].a, 0.9);
 				
 				rayColor.a = 1.0;
 				
@@ -107,12 +106,13 @@ void fragment() {
 				
 				rayDir = -rayDir;
 				rayDir = rayDir*cos(angle) + cross(normal, rayDir) * sin(angle) + normal * dot(normal, rayDir)*(1.0-cos(angle));
-				rayPos += rayDir * 2.0;
+				rayPos += rayDir * 0.2;
 			}
 			
 			dist = min(dist, distToSphere);
 		}
 		
+		rayDir = normalize(rayDir);
 		rayPos += rayDir * dist;
 	}
 	

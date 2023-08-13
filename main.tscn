@@ -1,14 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://bq6ay60vp40w1"]
 
 [ext_resource type="Material" uid="uid://bgyuh618qelgr" path="res://RaytracerMaterial.tres" id="1_nmutd"]
-[ext_resource type="Texture2D" uid="uid://ihy84t7kckgx" path="res://icon.svg" id="2_fninm"]
+[ext_resource type="Texture2D" uid="uid://rmeysew7trgk" path="res://Standing fire.jpg" id="2_n2dbh"]
 
 [node name="main" type="Node2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture_repeat = 3
 material = ExtResource("1_nmutd")
-scale = Vector2(5, 5)
-texture = ExtResource("2_fninm")
-centered = false
+scale = Vector2(0.838, 1.462)
+texture = ExtResource("2_n2dbh")
 region_rect = Rect2(0, 0, 5486, 3085)
