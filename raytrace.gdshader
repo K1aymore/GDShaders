@@ -96,7 +96,7 @@ void fragment() {
 			if (distToSphere < 0.0001) {
 				vec3 normal = rayPos - spheres[j].xyz;
 				
-				rayColor = mix(rayColor, sphereColors[j] * sphereColors[j].a, 0.9);
+				rayColor = mix(rayColor, sphereColors[j], 0.9);
 				
 				rayColor.a = 1.0;
 				
