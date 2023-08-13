@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwk2ghijvkjwr"]
+
+[ext_resource type="Material" uid="uid://bvvohuc7iehdh" path="res://new_shader_material.tres" id="1_5lcdc"]
+[ext_resource type="Texture2D" uid="uid://ihy84t7kckgx" path="res://icon.svg" id="2_fninm"]
+
+[node name="main" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_repeat = 3
+material = ExtResource("1_5lcdc")
+scale = Vector2(5, 5)
+texture = ExtResource("2_fninm")
+centered = false
+region_rect = Rect2(0, 0, 5486, 3085)

@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bvvohuc7iehdh"]
+
+[ext_resource type="Shader" path="res://main.gdshader" id="1_rwku0"]
+
+[resource]
+shader = ExtResource("1_rwku0")
+shader_parameter/Zoom = 2.0
+shader_parameter/Brightness = 1.0
+shader_parameter/startingRayPos = Vector3(0, -0.2, -6.5)
+shader_parameter/startingRayRot = Vector3(0, 0, 0)
