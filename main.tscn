@@ -24,4 +24,3 @@ grow_vertical = 2
 texture = ExtResource("2_fninm")
 stretch_mode = 5
 script = ExtResource("3_woia8")
-metadata/_edit_lock_ = true
