@@ -5,21 +5,29 @@ uniform float Brightness : hint_range(0.0, 3.0) = 1.0;
 uniform vec3 startingRayPos = vec3(-0.69, 0.0, -3);
 uniform vec3 startingRayRot = vec3(0.0);
 
-
-const vec4[5] spheres = {
+const int sphereCount = 9;
+const vec4[sphereCount] spheres = {
 	vec4(0.5, 0.5, 1.0, 0.5),
 	vec4(-1.0, 1.2, 0.5, 0.3),
 	vec4(1.0, 0.3, -1.0, 0.3),
-	vec4(-0.6, 0.7, -0.7, 0.25),
-	vec4(0.0, -0.5, -0.3, 0.4)
+	vec4(-0.6, 0.7, -0.7, 0.34),
+	vec4(0.0, -0.5, -0.3, 0.4),
+	vec4(1.0, 1.5, 0.0, 0.35),
+	vec4(1.5, 0.0, 0.0, 0.35),
+	vec4(-0.6, 0.1, 1.0, 0.30),
+	vec4(0.0, 0.5, 0.0, 0.30)
 };
 
-const vec4[5] sphereColors = {
+const vec4[sphereCount] sphereColors = {
 	vec4(0.3, 0.3, 0.3, 1.0),
 	vec4(0.9, 0.2, 0.6, 1.0),
 	vec4(0.2, 0.1, 0.8, 1.0),
 	vec4(0.6, 0.0, 0.4, 1.0),
-	vec4(0.0, 1.0, 0.7, 1.0)
+	vec4(0.0, 1.0, 0.7, 1.0),
+	vec4(0.7, 0.0, 0.0, 1.0),
+	vec4(0.4, 0.0, 0.9, 1.0),
+	vec4(0.4, 0.3, 0.3, 1.0),
+	vec4(0.5, 0.5, 0.5, 1.0)
 };
 
 
@@ -84,7 +92,7 @@ void fragment() {
 	
 	
 	
-	int maxRays = 200;
+	int maxRays = 100;
 	for(int i = 0; i < maxRays; i++) {
 		float dist = 4000.0;
 		
