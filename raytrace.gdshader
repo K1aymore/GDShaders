@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-uniform float Zoom : hint_range(0.1, 10) = 1.0;
+uniform float Zoom : hint_range(0.1, 10) = 0.5;
 uniform float Brightness : hint_range(0.0, 3.0) = 1.0;
 uniform vec3 startingRayPos = vec3(-0.69, 0.0, -3);
 uniform vec3 startingRayRot = vec3(0.0);

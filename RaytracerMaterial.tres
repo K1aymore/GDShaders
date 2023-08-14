@@ -4,7 +4,7 @@
 
 [resource]
 shader = ExtResource("1_llup1")
-shader_parameter/Zoom = 1.0
+shader_parameter/Zoom = 0.5
 shader_parameter/Brightness = 1.0
 shader_parameter/startingRayPos = Vector3(-0.69, 0, -3)
-shader_parameter/startingRayRot = Vector3(0, 1.174, 0)
+shader_parameter/startingRayRot = Vector3(0, 0, 0)
